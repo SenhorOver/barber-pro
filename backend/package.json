@@ -10,9 +10,11 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^5.1.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/node": "^24.2.0",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
