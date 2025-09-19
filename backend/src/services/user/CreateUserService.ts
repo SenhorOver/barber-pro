@@ -19,8 +19,6 @@ class CreateUserService {
       },
     });
 
-    console.log(userAlreadyExists);
-
     if (userAlreadyExists) {
       throw new Error("User/Email already exists");
     }
