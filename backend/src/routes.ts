@@ -9,6 +9,7 @@ import { CreateHaircutController } from "./controllers/haircut/CreateHaircutCont
 import { ListHaircutController } from "./controllers/haircut/ListHaircutController";
 import { UpdateHaircutController } from "./controllers/haircut/UpdateHaircutController";
 import { CheckSubscriptionController } from "./controllers/haircut/CheckSubscriptionController";
+import { CountHaircutsController } from "./controllers/haircut/CountHaircutsController";
 
 const router = Router();
 
@@ -26,6 +27,11 @@ router.get(
   "/haircut/check",
   isAuthenticated,
   new CheckSubscriptionController().handle,
+);
+router.get(
+  "/haircut/count",
+  isAuthenticated,
+  new CountHaircutsController().handle,
 );
 
 export { router };
