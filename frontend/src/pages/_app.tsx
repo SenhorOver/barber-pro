@@ -1,5 +1,11 @@
 import type { AppProps } from "next/app";
-import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
+import {
+  ChakraProvider,
+  createSystem,
+  defaultConfig,
+  defineConfig,
+} from "@chakra-ui/react";
+import { ColorModeProvider } from "@/components/ui/color-mode";
 
 const colors = {
   barber: {
@@ -9,7 +15,7 @@ const colors = {
   },
   button: {
     cta: { value: "#fba931" },
-    default: { value: "#fff" },
+    DEFAULT: { value: "#fff" },
     gray: { value: "#dfdfdf" },
     danger: { value: "#ff4040" },
   },
@@ -18,7 +24,7 @@ const colors = {
   },
 };
 
-export const system = createSystem(defaultConfig, {
+const config = defineConfig({
   theme: {
     tokens: {
       colors,
@@ -26,10 +32,14 @@ export const system = createSystem(defaultConfig, {
   },
 });
 
+const system = createSystem(defaultConfig, config);
+
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider value={system}>
-      <Component {...pageProps} />
+      <ColorModeProvider defaultTheme="dark">
+        <Component {...pageProps} />
+      </ColorModeProvider>
     </ChakraProvider>
   );
 }
