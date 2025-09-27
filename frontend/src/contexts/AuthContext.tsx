@@ -10,6 +10,8 @@ interface AuthContextData {
   user: UserProps | null;
   isAuthenticated: boolean;
   singIn: (credentials: SignInProps) => Promise<void>;
+  signUp: (credentials: SignUpProps) => Promise<void>;
+  logoutUser: () => Promise<void>;
 }
 
 interface UserProps {
@@ -27,6 +29,12 @@ interface SubscriptionProps {
 }
 
 interface SignInProps {
+  email: string;
+  password: string;
+}
+
+interface SignUpProps {
+  name: string;
   email: string;
   password: string;
 }
@@ -66,8 +74,34 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  async function signUp({ name, email, password }: SignUpProps) {
+    try {
+      await apiClient.post("/users", {
+        name,
+        email,
+        password,
+      });
+
+      Router.push("/login");
+    } catch {
+      console.log("Erro ao entrar");
+    }
+  }
+
+  async function logoutUser() {
+    try {
+      destroyCookie(null, "@barber.token", { path: "/" });
+      setUser(null);
+      Router.push("/login");
+    } catch {
+      console.log("Erro ao sair");
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, singIn }}>
+    <AuthContext.Provider
+      value={{ user, isAuthenticated, singIn, signUp, logoutUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

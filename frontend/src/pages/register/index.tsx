@@ -3,8 +3,24 @@ import logoImg from "../../../public/images/logo.svg";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import { useContext, useState } from "react";
+import { AuthContext } from "@/contexts/AuthContext";
 
 export default function Register() {
+  const { signUp } = useContext(AuthContext);
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  async function handleRegister() {
+    if (!name && !email && !password) {
+      return;
+    }
+
+    await signUp({ name, email, password });
+  }
+
   return (
     <>
       <Head>
@@ -33,6 +49,8 @@ export default function Register() {
             placeholder="Nome da barbearia"
             type="text"
             mb={3}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
           <Input
             background={"barber.400"}
@@ -41,6 +59,8 @@ export default function Register() {
             placeholder="email@email.com"
             type="email"
             mb={3}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <Input
             background={"barber.400"}
@@ -49,6 +69,8 @@ export default function Register() {
             placeholder="************"
             type="password"
             mb={6}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <Button
             background={"button.cta"}
@@ -57,6 +79,7 @@ export default function Register() {
             size={"lg"}
             mb={6}
             _hover={{ bg: "#ffb13e" }}
+            onClick={handleRegister}
           >
             Cadastrar
           </Button>
