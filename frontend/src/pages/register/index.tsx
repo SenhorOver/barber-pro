@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useContext, useState } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
+import { GetServerSideProps } from "next";
+import { canSSRGuest } from "@/utils/canSSRGuest";
 
 export default function Register() {
   const { signUp } = useContext(AuthContext);
@@ -14,7 +16,7 @@ export default function Register() {
   const [password, setPassword] = useState("");
 
   async function handleRegister() {
-    if (!name && !email && !password) {
+    if (!name || !email || !password) {
       return;
     }
 
@@ -94,3 +96,9 @@ export default function Register() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = canSSRGuest(async () => {
+  return {
+    props: {},
+  };
+});

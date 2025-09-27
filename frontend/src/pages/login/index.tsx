@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useContext, useState } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
+import { GetServerSideProps } from "next";
+import { canSSRGuest } from "@/utils/canSSRGuest";
 
 export default function Login() {
   const { singIn } = useContext(AuthContext);
@@ -13,6 +15,8 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   async function handleLogin() {
+    if (!email || !password) return;
+
     singIn({ email, password });
   }
 
@@ -79,3 +83,9 @@ export default function Login() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = canSSRGuest(async () => {
+  return {
+    props: {},
+  };
+});
