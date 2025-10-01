@@ -1,3 +1,4 @@
+import { Flex, Text } from "@chakra-ui/react";
 import Head from "next/head";
 
 export default function Home() {
@@ -6,9 +7,14 @@ export default function Home() {
       <Head>
         <title>BarberPro - Seu sistema completo</title>
       </Head>
-      <div>
-        <h1>Hello World!</h1>
-      </div>
+      <Flex
+        background={"barber.900"}
+        height={"100vh"}
+        alignItems={"center"}
+        justifyContent={"center"}
+      >
+        <Text>Página Home</Text>
+      </Flex>
     </>
   );
 }

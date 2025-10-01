@@ -1,3 +1,4 @@
+import { Sidebar } from "@/components/sidebar";
 import { canSSRAuth } from "@/utils/canSSRAuth";
 import { Flex, Text } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
@@ -9,9 +10,11 @@ export default function Dashboard() {
       <Head>
         <title>BarberPRO - Minha barbearia</title>
       </Head>
-      <Flex>
-        <Text>Bem vindo ao dashboard</Text>
-      </Flex>
+      <Sidebar>
+        <Flex>
+          <Text>Bem vindo ao dashboard</Text>
+        </Flex>
+      </Sidebar>
     </>
   );
 }
