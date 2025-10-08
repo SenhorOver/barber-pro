@@ -38,6 +38,7 @@ export default function New({ haircuts }: NewProps) {
         haircut_id: haircutSelected?.id,
       });
       console.log("Agendado com sucesso!");
+      setCustomer("");
     } catch {
       return;
     }
