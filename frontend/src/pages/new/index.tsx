@@ -28,6 +28,9 @@ export default function New({ haircuts }: NewProps) {
   }
 
   async function handleRegister() {
+    if (!customer) {
+      return;
+    }
     try {
       const apiClient = setupAPIClient();
       await apiClient.post("/schedule", {
