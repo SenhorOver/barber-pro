@@ -1,3 +1,4 @@
+import { dialog } from "@/components/modal";
 import { Sidebar } from "@/components/sidebar";
 import { setupAPIClient } from "@/services/api";
 import { canSSRAuth } from "@/utils/canSSRAuth";
@@ -32,7 +33,29 @@ interface DashboardProps {
 export default function Dashboard({ schedule }: DashboardProps) {
   const [isMobile] = useMediaQuery(["(max-width: 600px)"]);
 
-  const [list] = useState(schedule);
+  const [list, setList] = useState(schedule);
+
+  function handleOpenModal(item: ScheduleItem) {
+    dialog.open("a", {
+      data: item,
+      handleFinish,
+    });
+  }
+
+  async function handleFinish(id: string) {
+    try {
+      const apiClient = setupAPIClient();
+      await apiClient.delete("/schedule", {
+        params: {
+          schedule_id: id,
+        },
+      });
+      setList((oldList) => oldList.filter((item) => item.id !== id));
+    } catch (err) {
+      console.log(err);
+    }
+    dialog.close("a");
+  }
 
   return (
     <>
@@ -71,6 +94,7 @@ export default function Dashboard({ schedule }: DashboardProps) {
               mt={1}
               bg={"transparent"}
               style={{ textDecoration: "none" }}
+              onClick={() => handleOpenModal(item)}
             >
               <Flex
                 w={"100%"}
@@ -104,6 +128,7 @@ export default function Dashboard({ schedule }: DashboardProps) {
           ))}
         </Flex>
       </Sidebar>
+      <dialog.Viewport />
     </>
   );
 }
