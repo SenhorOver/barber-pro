@@ -9,6 +9,15 @@ import {
 
 import { ColorModeProvider, type ColorModeProviderProps } from "./color-mode";
 
+const styles = {
+  body: {
+    color: "gray.100",
+  },
+  a: {
+    color: "#fff",
+  },
+};
+
 const colors = {
   barber: {
     900: { value: "#12131b" },
@@ -27,6 +36,9 @@ const colors = {
 };
 
 const config = defineConfig({
+  globalCss: {
+    ...styles,
+  },
   theme: {
     tokens: {
       colors,

@@ -1,5 +1,6 @@
 import { Sidebar } from "@/components/sidebar";
 import { setupAPIClient } from "@/services/api";
+// import { getStripeJs } from "@/services/stripe-js";
 import { canSSRAuth } from "@/utils/canSSRAuth";
 import { Button, Flex, Heading, Text, useMediaQuery } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
@@ -11,6 +12,22 @@ interface PlanosProps {
 
 export default function Planos({ premium }: PlanosProps) {
   const [isMobile] = useMediaQuery(["(max-width: 600px)"]);
+
+  async function handleSubscribe() {
+    if (premium) return;
+
+    try {
+      const apiClient = setupAPIClient();
+
+      const response = await apiClient.post("/subscribe");
+
+      const { url } = response.data;
+
+      window.location.href = url;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <>
@@ -101,7 +118,7 @@ export default function Planos({ premium }: PlanosProps) {
                 ml={4}
                 mb={2}
               >
-                RS 9.99
+                R$ 9.99
               </Text>
               <Button
                 bg={premium ? "black" : "button.cta"}
@@ -109,9 +126,7 @@ export default function Planos({ premium }: PlanosProps) {
                 color={"white"}
                 fontWeight={"bold"}
                 disabled={premium}
-                onClick={() => {
-                  console.log("cliacdo");
-                }}
+                onClick={handleSubscribe}
                 _hover={{ bg: "gray.700" }}
               >
                 {premium ? "VOCÊ JÁ É PREMIUM" : "VIRAR PREMIUM"}
