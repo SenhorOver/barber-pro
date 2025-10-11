@@ -1,4 +1,4 @@
-import { Router } from "express";
+import express, { Router } from "express";
 import { CreateUserController } from "./controllers/user/CreateUserController";
 import { AuthUserController } from "./controllers/user/AuthUserController";
 import { UserDetailController } from "./controllers/user/UserDetailController";
@@ -15,6 +15,7 @@ import { NewScheduleController } from "./controllers/schedule/NewScheduleControl
 import { ListScheduleController } from "./controllers/schedule/ListScheduleController";
 import { FinishScheduleController } from "./controllers/schedule/FinishScheduleController";
 import { SubscribeController } from "./controllers/subscriptions/SubscribeController";
+import { WebhookController } from "./controllers/subscriptions/WebhooksController";
 
 const router = Router();
 
@@ -55,5 +56,10 @@ router.delete(
 
 // Subscription
 router.post("/subscribe", isAuthenticated, new SubscribeController().handle);
+router.post(
+  "/webhooks",
+  express.raw({ type: "application/json" }),
+  new WebhookController().handle,
+);
 
 export { router };
