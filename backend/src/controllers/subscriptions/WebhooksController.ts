@@ -7,25 +7,22 @@ class WebhookController {
   async handle(req: Request, res: Response) {
     let event: Stripe.Event = req.body;
 
+    const signature = req.headers["stripe-signature"] as string;
     const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
 
-    if (endpointSecret) {
-      const signature = req.headers["stripe-signature"] as string;
-
-      try {
-        event = stripe.webhooks.constructEvent(
-          req.body,
-          signature,
-          endpointSecret,
-        );
-      } catch (err) {
-        if (err instanceof Stripe.errors.StripeSignatureVerificationError) {
-          console.log("Webhook signature failed", err.message);
-        } else {
-          console.log("Webhook signature failed");
-        }
-        return res.sendStatus(400);
+    try {
+      event = stripe.webhooks.constructEvent(
+        req.body,
+        signature,
+        endpointSecret,
+      );
+    } catch (err) {
+      if (err instanceof Stripe.errors.StripeSignatureVerificationError) {
+        console.log("Webhook signature failed", err.message);
+      } else {
+        console.log("Webhook signature failed");
       }
+      return res.sendStatus(400);
     }
 
     switch (event.type) {
