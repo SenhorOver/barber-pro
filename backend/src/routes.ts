@@ -16,6 +16,7 @@ import { ListScheduleController } from "./controllers/schedule/ListScheduleContr
 import { FinishScheduleController } from "./controllers/schedule/FinishScheduleController";
 import { SubscribeController } from "./controllers/subscriptions/SubscribeController";
 import { WebhookController } from "./controllers/subscriptions/WebhooksController";
+import { CreatePortalController } from "./controllers/subscriptions/CreatePortalController";
 
 const router = Router();
 
@@ -60,6 +61,11 @@ router.post(
   "/webhooks",
   express.raw({ type: "application/json" }),
   new WebhookController().handle,
+);
+router.post(
+  "/create-portal",
+  isAuthenticated,
+  new CreatePortalController().handle,
 );
 
 export { router };
