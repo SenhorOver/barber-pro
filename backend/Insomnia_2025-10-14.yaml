@@ -1,0 +1,494 @@
+type: collection.insomnia.rest/5.0
+name: My first collection
+meta:
+  id: wrk_fb4f446dd92048d2aa4c50829a05571a
+  created: 1757378248626
+  modified: 1757378248626
+  description: ""
+collection:
+  - name: User
+    meta:
+      id: fld_bf629e2a84644abc8e309e019442df01
+      created: 1758241858759
+      modified: 1759450732553
+      sortKey: -1758241858760
+      description: ""
+    children:
+      - url: "{{url}}/users"
+        name: Create User
+        meta:
+          id: req_e7c785eb80584b61a27afc57dae9946d
+          created: 1758241861527
+          modified: 1760487328972
+          isPrivate: false
+          description: ""
+          sortKey: -1758241861527
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name": "",
+            	"email": "",
+            	"password": ""
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.6.1
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/session"
+        name: Auth User session
+        meta:
+          id: req_b28a38497c014e888d98857f3357209b
+          created: 1758318292701
+          modified: 1760487321894
+          isPrivate: false
+          description: ""
+          sortKey: -1758318292701
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email": "",
+            	"password": ""
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.6.1
+        authentication:
+          type: none
+        scripts:
+          afterResponse: >-
+            // Captura o campo 'token' da resposta e salva como variável de
+            ambiente
+
+            const statusCode = insomnia.response.code;
+
+            if(statusCode >= 200 && statusCode < 300) {
+            	const textBody = insomnia.response.json();
+            	insomnia.environment.set("auth_token", textBody.token);
+            }
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/me"
+        name: Logged User
+        meta:
+          id: req_3041938e171a4d329dff44c957930fbb
+          created: 1758326772845
+          modified: 1758327671126
+          isPrivate: false
+          description: ""
+          sortKey: -1758326772845
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.6.1
+        authentication:
+          type: bearer
+          token: "{{auth_token}}"
+          prefix: Bearer
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/users"
+        name: Update User Data
+        meta:
+          id: req_1e0c9a7864734cfabc1c8626767fc721
+          created: 1758596294781
+          modified: 1760487311703
+          isPrivate: false
+          description: ""
+          sortKey: -1758596294781
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name": "",
+            	"address": ""
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.6.1
+        authentication:
+          type: bearer
+          prefix: Bearer
+          token: "{{auth_token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Haircuts
+    meta:
+      id: fld_37f89f844ac54714ad24fc9265f77cd9
+      created: 1758596941952
+      modified: 1758671342657
+      sortKey: -1758596941952
+      description: ""
+    children:
+      - url: "{{url}}/haircut"
+        name: Create Haircut
+        meta:
+          id: req_e2783200dd0d478b80512d3278afce4d
+          created: 1758596945198
+          modified: 1760487301934
+          isPrivate: false
+          description: ""
+          sortKey: -1758596945198
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name": "",
+            	"price": 0.0
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.6.1
+        authentication:
+          type: bearer
+          prefix: Bearer
+          token: "{{auth_token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/haircuts"
+        name: List Haircut
+        meta:
+          id: req_7968b35351cc4512abb64a6939246496
+          created: 1758598081051
+          modified: 1758598956677
+          isPrivate: false
+          description: ""
+          sortKey: -1758596619989.5
+        method: GET
+        parameters:
+          - id: pair_2ece98729d494d908041ab58e046b136
+            name: status
+            value: "true"
+            description: ""
+            disabled: false
+        headers:
+          - name: User-Agent
+            value: insomnia/11.6.1
+        authentication:
+          type: bearer
+          prefix: Bearer
+          token: "{{auth_token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/haircut"
+        name: Update Haircut
+        meta:
+          id: req_420a7f702a204604817f111118c14bc6
+          created: 1758598755712
+          modified: 1760487293124
+          isPrivate: false
+          description: ""
+          sortKey: -1758598755712
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"haircut_id": "",
+            	"name": "",
+            	"price": 0.0,
+            	"status": true
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.6.1
+        authentication:
+          type: bearer
+          prefix: Bearer
+          token: "{{auth_token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/haircut/check"
+        name: Check Subscription
+        meta:
+          id: req_b11bb56a99b1479daa7bc439895a95f3
+          created: 1758671737113
+          modified: 1758672332295
+          isPrivate: false
+          description: ""
+          sortKey: -1758671737113
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.6.1
+        authentication:
+          type: bearer
+          token: "{{auth_token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/haircut/count"
+        name: Count Haircuts
+        meta:
+          id: req_c96f225b16dd484a8b66dd90704eee8f
+          created: 1758672312431
+          modified: 1760053716863
+          isPrivate: false
+          description: ""
+          sortKey: -1758635246412.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.6.1
+        authentication:
+          type: bearer
+          token: "{{auth_token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/haircut/detail"
+        name: Single Haircut
+        meta:
+          id: req_06293258885d4184b05d0a190281133c
+          created: 1758672720436
+          modified: 1760487282792
+          isPrivate: false
+          description: ""
+          sortKey: -1758617001062.25
+        method: GET
+        parameters:
+          - id: pair_8d1d82dea254456f93b0d0f55741b000
+            name: haircut_id
+            value: ""
+            description: ""
+            disabled: false
+        headers:
+          - name: User-Agent
+            value: insomnia/11.6.1
+        authentication:
+          type: bearer
+          token: "{{auth_token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Schedule
+    meta:
+      id: fld_458546db0e0c45f6a8c864bd5f74990e
+      created: 1758674113428
+      modified: 1758674113428
+      sortKey: -1758674113428
+      description: ""
+    children:
+      - url: "{{url}}/schedule"
+        name: Create Schedule
+        meta:
+          id: req_34e4068173a744389f196b22aa231056
+          created: 1758674115773
+          modified: 1760487198363
+          isPrivate: false
+          description: ""
+          sortKey: -1758674115773
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"haircut_id": "",
+            	"customer": ""
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.6.1
+        authentication:
+          type: bearer
+          token: "{{auth_token}}"
+          prefix: Bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/schedule"
+        name: List Schedules
+        meta:
+          id: req_15ac366f76a0433583729f14c580e56c
+          created: 1758674575056
+          modified: 1758674617275
+          isPrivate: false
+          description: ""
+          sortKey: -1758674575056
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.6.1
+        authentication:
+          type: bearer
+          token: "{{auth_token}}"
+          prefix: Bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/schedule"
+        name: Finish Schedule
+        meta:
+          id: req_bc34603fc2534e63b66af89d25b59752
+          created: 1758675267195
+          modified: 1760487272388
+          isPrivate: false
+          description: ""
+          sortKey: -1758672926443
+        method: DELETE
+        body:
+          mimeType: application/json
+          text: ""
+        parameters:
+          - id: pair_79bd6518fb5943ffa845f4f9a1b09d3a
+            name: schedule_id
+            value: ""
+            description: ""
+            disabled: false
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.6.1
+        authentication:
+          type: bearer
+          token: "{{auth_token}}"
+          prefix: Bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Subscription
+    meta:
+      id: fld_ec2a9630402a4376b573672db6a8c233
+      created: 1760053677050
+      modified: 1760053677050
+      sortKey: -1760053677050
+      description: ""
+    children:
+      - url: "{{url}}/subscribe"
+        name: Subscribe
+        meta:
+          id: req_be8cf374b3384930b0bc779d3edcc18c
+          created: 1760053679828
+          modified: 1760487175020
+          isPrivate: false
+          description: ""
+          sortKey: -1760053679828
+        method: POST
+        parameters:
+          - id: pair_c6d43e60576f4e20903613c941d35e06
+            name: ""
+            value: ""
+            description: ""
+            disabled: false
+        headers:
+          - name: User-Agent
+            value: insomnia/11.6.1
+        authentication:
+          type: bearer
+          token: "{{auth_token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_041592b326cfa5d6ed5e2c701a514e092ce1164c
+    created: 1757378248628
+    modified: 1759450732549
+environments:
+  name: Base Environment
+  meta:
+    id: env_041592b326cfa5d6ed5e2c701a514e092ce1164c
+    created: 1757378248627
+    modified: 1759450732552
+    isPrivate: false
+  data:
+    url: http://localhost:3333
+    auth_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQmFyYmVhcmlhIFNob3ciLCJlbWFpbCI6InNob3dAdGVzdGUuY29tIiwiaWF0IjoxNzU5NDUwNzMxLCJleHAiOjE3NjIwNDI3MzEsInN1YiI6IjFiNjg1NDk3LWI2NGQtNDc0YS1hMjlhLWM4MzBjODRkYjY2MiJ9.rkZecIWKyMEHuvxvNoluU6dHuNabBwsoI7LBzziSjMQ
